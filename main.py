@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 from FileName import image
 
 ban_user = (
-  16,
-  51
+  1,
+  1
 )
 bot_authors = (
-  51,
-  91
+  1,
+  1
 )
 
 intents = discord.Intents.default()
@@ -19,9 +19,9 @@ intents.members = True
 bot = discord.Client(intents=intents)
 load_dotenv(".env")
 
-guildID = 1111
-defaultchannel = 111
-channelsID = 5555
+guildID = 1
+defaultchannel = 1
+channelsID = 1
 
 @bot.event
 async def on_member_join(member):
