@@ -108,15 +108,15 @@ async def on_message_delete(message):
 @bot.event
 async def on_voice_state_update(member, before, after):
   if before.channel != after.channel:
-    botRoom = bot.get_channel(channelsID)
+    sendchannel = bot.get_channel(channelsID)
     channelsID = [1123494382725775361]
     if before.channel is not None and before.channel.id in channelsID:
       voice_leave = discord.Embed(color=0xff4242)
       voice_leave.set_author(name=f"leave {member.name}",icon_url=member.display_avatar)
-      await botRoom.send(embed=voice_leave)
+      await sendchannel.send(embed=voice_leave)
     if after.channel is not None and after.channel.id in channelsID:
       voice_connect = discord.Embed(color=0x426eff)
       voice_connect.set_author(name=f"Join {member.name}",icon_url=member.display_avatar)
-      await botRoom.send(embed=voice_connect)
+      await sendchannel.send(embed=voice_connect)
 
 bot.run(os.getenv("TOKEN"))
