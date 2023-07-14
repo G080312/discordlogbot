@@ -109,7 +109,7 @@ async def on_message_delete(message):
 async def on_voice_state_update(member, before, after):
   if before.channel != after.channel:
     sendchannel = bot.get_channel(channelsID)
-    channelsID = [1123494382725775361]
+    channelsID = []
     if before.channel is not None and before.channel.id in channelsID:
       voice_leave = discord.Embed(color=0xff4242)
       voice_leave.set_author(name=f"leave {member.name}",icon_url=member.display_avatar)
