@@ -2,6 +2,23 @@ import os
 import discord
 from dotenv import load_dotenv
 from FileName import image
+import cv2
+import tempfile
+
+def image(content):
+  try:
+    img = None
+    file = tempfile.NamedTemporaryFile(dir='../', delete=False)
+    file.write(requests.get(content).content)
+    file.close()
+    img = cv2.imread(file.name)
+    cv2.imwrite('files/log.png',img)
+    os.remove(file.name)
+    return img
+  except:
+    img = None
+    os.remove(file.name)
+    return img
 
 ban_user = (
   1,
@@ -19,36 +36,11 @@ intents.members = True
 bot = discord.Client(intents=intents)
 load_dotenv(".env")
 
-guildID = 1
-defaultchannel = 1
 channelsID = 1
 
 @bot.event
-async def on_member_join(member):
-  if member.guild.id == guildID:
-    guild = bot.get_guild(guildID)
-    channel = guild.get_channel(defaultchannel)
-    embed = discord.Embed(color=0x4169e1,description=f"{member} joins the server")
-    await channel.send(embed=embed)
-
-@bot.event
-async def on_ready():
-  await bot.change_presence(activity=discord.Game(f"{len(bot.guilds) + 250}server "))
-  bot_authors_list,bot_ban_list = [],[]
-  for A in range(0,len(bot_authors)):
-    authors = await bot.fetch_user(bot_authors[A])
-    bot_authors_list.append(f"{authors}")
-  authorlist = " ".join(bot_authors_list)
-  for B in range(0,len(ban_user)):
-    banuser = await bot.fetch_user(ban_user[B])
-    bot_ban_list.append(f"{banuser}")
-  banlist = " ".join(bot_ban_list)
-  print(f"login ID [{bot.user.name}] [BOT-Bans {banlist}]-[BOT-Authors {authorlist}]")
-
-@bot.event
 async def on_message(message):
-  send_guild = bot.get_guild(guildID)
-  send_channel = send_guild.get_channel(channelsID)
+  send_channel = bot.get_channel(channelsID)
   if message.author.bot:
     return
   elif message.guild and not message.author.id in bot_authors and not message.author.bot:
@@ -80,8 +72,7 @@ async def on_message(message):
 
 @bot.event
 async def on_message_delete(message):
-  send_guild = bot.get_guild(guildID)
-  send_channel = send_guild.get_channel(channelsID)
+  send_channel = bot.get_channel(channelsID)
   if message.author.bot:
     return
   elif message.guild and not message.author.id in bot_authors and not message.author.bot:
